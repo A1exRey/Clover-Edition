@@ -8,7 +8,7 @@ fnamesSoFar = {}
 
 
 def filename(s):
-    fname = re.sub("-$", "", re.sub("^-", "", re.sub("[^a-zA-Z0-9_-]+", "-", s)))
+    fname = re.sub("-$", "", re.sub("^-", "", re.sub("[^а-яА-Яa-zA-Z0-9_-]+", "-", s)))
     n = 1
     fname2 = fname
     while fname2 in fnamesSoFar:
@@ -19,7 +19,8 @@ def filename(s):
 
 
 try:
-    paste = request.urlopen("https://pastebin.com/raw/KD4yN2Gc").read().decode("utf-8")
+    with open('./data/promts.txt','r') as fp: paste = fp.read()
+    #paste = request.urlopen("https://pastebin.com/raw/KD4yN2Gc").read().decode("utf-8")
 except error.HTTPError as e:
     if e.code == 404:
         output("Unable to find pastebin for scraping.", "error")
@@ -35,7 +36,7 @@ paste = re.sub("\n\s*\n\s*", "\n\n", paste)
 sections = re.findall(r"[^|]+", paste)
 for sect in sections[2:][:-1]:
     category = re.search(r"\*\*\*([^\*]+)\*\*\*", sect).group(1)
-    category = re.sub(".[pP]rompts?$", "", category)
+    category = re.sub(".[сС]южеты?$", "", category)
     category = filename(category)
     try:  
         Path("prompts", category).mkdir(exist_ok=True)

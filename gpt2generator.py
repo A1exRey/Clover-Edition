@@ -39,7 +39,7 @@ def hackyWhiteSpaceCutter(prompt):
     return re.search(r'\s*$', prompt).group(0)
 
 
-def memory_merge(prompt, context, tokenizer, maxHistory=1024):
+def memory_merge(prompt, context, tokenizer, maxHistory=2048):
     assert (prompt + context)
     # print(prompt+context)
     # logger.debug('RAW TEXT INPUT IS:`%r`', context)
@@ -197,7 +197,7 @@ class GPT2Generator:
         self.dtype = dtype
         self.repetition_penalty = repetition_penalty
         self.batch_size = 1
-        self.max_history_tokens = 1024 - generate_num
+        self.max_history_tokens = 2048 - generate_num
         self.stop_token = "<|endoftext|>"
 
         if isinstance(model_path, str):

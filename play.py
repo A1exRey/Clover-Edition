@@ -2,9 +2,6 @@ import traceback
 from pathlib import Path
 from datetime import datetime
 
-# remove this in a few days
-with open(Path('interface', 'start-message.txt'), 'r') as file_:
-    print('\x1B[7m' + file_.read() + '\x1B[27m')
 import gc
 import torch
 
@@ -96,65 +93,63 @@ if not Path("prompts", "Anime").exists():
 
 def d20ify_speech(action, d):
     adjectives_say_d01 = [
-        "mumble",
-        "prattle",
-        "incoherently say",
-        "whine",
-        "ramble",
-        "wheeze",
+        "промолвил",
+        "прохрипел",
+        "невнятно сказал",
+        "прошептал",
+        "неуверенно произнес"
     ]
     adjectives_say_d20 = [
-        "successfully",
-        "persuasively",
-        "expertly",
-        "conclusively",
-        "dramatically",
-        "adroitly",
-        "aptly",
+        "героически",
+        "убедительно",
+        "со знанием дела",
+        "окончательно",
+        "драматично",
+        "ловко"
     ]
     if d == 1:
         adjective = random.sample(adjectives_say_d01, 1)[0]
-        action = "You " + adjective + " " + action
+        action = "Ты " + adjective + " " + action
     elif d == 20:
         adjective = random.sample(adjectives_say_d20, 1)[0]
-        action = "You " + adjective + " say " + action
+        action = "Ты " + adjective + " сказал " + action
     else:
-        action = "You say " + action
+        action = "Ты сказал " + action
     return action
 
 
 def d20ify_action(action, d):
     adjective_action_d01 = [
-        "disastrously",
-        "incompetently",
-        "dangerously",
-        "stupidly",
-        "horribly",
-        "miserably",
-        "sadly",
+        "катастрофически",
+        "некомпетентно",
+        "опасно",
+        "глупо",
+        "ужасно",
+        "жалко",
+        "к сожалению",
     ]
     adjective_action_d20 = [
-        "successfully",
-        "expertly",
-        "conclusively",
-        "adroitly",
-        "aptly",
-        "masterfully",
+        "успешно",
+        "со знанием дела",
+        "окончательно",
+        "ловко",
+        "точно",
+        "мастерски",
     ]
     if d == 1:
         adjective = random.sample(adjective_action_d01, 1)[0]
-        action = "You " + adjective + " fail to " + action
+        action = "Ты " + adjective + " потерпел неудачу в попытках " + action
     elif d < 5:
-        action = "You attempt to " + action
+        action = "Ты пытаешься " + action
     elif d < 10:
-        action = "You try to " + action
+        action = "Ты стараешься " + action
     elif d < 15:
-        action = "You start to " + action
+        action = "Ты решаешь " + action
     elif d < 20:
-        action = "You " + action
+        action = "Ты смог " + action
     else:
         adjective = random.sample(adjective_action_d20, 1)[0]
-        action = "You " + adjective + " " + action
+        action = "Ты " + adjective + " " + action
     return action
 
 
@@ -622,7 +617,7 @@ class GameManager:
         """
         action = format_input(action)
 
-        story_insert_regex = re.search("^(?: *you +)?! *(.*)$", action, flags=re.I)
+        story_insert_regex = re.search("^(?: *ты +)?! *(.*)$", action, flags=re.I)
 
         # If the player enters a story insert.
         if story_insert_regex:
@@ -640,23 +635,23 @@ class GameManager:
 
             # Add the "you" if it's not prompt-toolkit
             if not use_ptoolkit():
-                action = re.sub("^(?: *you +)*(.+)$", "You \\1", action, flags=re.I)
+                action = re.sub("^(?: *ты +)*(.+)$", "Ты \\1", action, flags=re.I)
 
-            sugg_action_regex = re.search(r"^(?: *you +)?([0-9]+)$", action, flags=re.I)
-            user_speech_regex = re.search(r"^(?: *you +say +)?([\"'].*[\"'])$", action, flags=re.I)
-            user_action_regex = re.search(r"^(?: *you +)(.+)$", action, flags=re.I)
+            sugg_action_regex = re.search(r"^(?: *ты +)?([0-9]+)$", action, flags=re.I)
+            user_speech_regex = re.search(r"^(?: *ты +сказал +)?([\"'].*[\"'])$", action, flags=re.I)
+            user_action_regex = re.search(r"^(?: *ты +)(.+)$", action, flags=re.I)
 
             if sugg_action_regex:
                 action = sugg_action_regex.group(1)
                 if action in [str(i) for i in range(len(suggested_actions))]:
-                    action = "You " + suggested_actions[int(action)].strip()
+                    action = "Ты " + suggested_actions[int(action)].strip()
 
             if user_speech_regex:
                 action = user_speech_regex.group(1)
                 if settings.getboolean("action-d20"):
                     action = d20ify_speech(action, d)
                 else:
-                    action = "You say " + action
+                    action = "Ты сказал " + action
                 action = end_sentence(action)
 
             elif user_action_regex:
@@ -664,11 +659,11 @@ class GameManager:
                 if settings.getboolean("action-d20"):
                     action = d20ify_action(action, d)
                 else:
-                    action = "You " + action
+                    action = "Ты " + action
                 action = end_sentence(action)
 
             # If the user enters nothing but leaves "you", treat it like an empty action (continue)
-            if re.match(r"^(?: *you *)*[.?!]? *$", action, flags=re.I):
+            if re.match(r"^(?: *ты *)*[.?!]? *$", action, flags=re.I):
                 action = ""
             else:
                 # Prompt the user with the formatted action
@@ -730,16 +725,16 @@ class GameManager:
             print()
 
             if use_ptoolkit():
-                action = input_line("> ", "main-prompt", default="%s" % "You ")
+                action = input_line("> ", "main-prompt", default="%s" % "Ты ")
             else:
-                action = input_line("> You ", "main-prompt")
+                action = input_line("> Ты ", "main-prompt")
 
             # Clear suggestions and user input
             if act_alts and not in_colab():
                 clear_lines(action_suggestion_lines + 2)
 
             # Users can type in "/command", or "You /command" if prompt_toolkit is on and they left the "You" in
-            cmd_regex = re.search(r"^(?: *you *)?/([^ ]+) *(.*)$", action, flags=re.I)
+            cmd_regex = re.search(r"^(?: *ты *)?/([^ ]+) *(.*)$", action, flags=re.I)
 
             # If this is a command
             if cmd_regex:
