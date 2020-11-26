@@ -43,7 +43,7 @@ setting_info = {
     "console-bell":     ["Beep after AI generates text.", "on"],
     "top-keks":         ["Number of words the AI can randomly choose.", 20],
     "action-sugg":      ["How many actions to generate; 0 is off.", 4],
-    "action-d20":       ["Makes actions difficult.", "on"],
+    "action-d20":       ["Makes actions difficult.", "off"],
     "action-temp":      ["How random the suggested actions are.", 1],
     "prompt-toolkit":   ["Whether or not to use the prompt_toolkit library.", "on"],
     "autosave":         ["Whether or not to save after every action.", "on"],
