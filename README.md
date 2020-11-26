@@ -2,6 +2,14 @@
 
 Теперь на русском! Модель крайне сырая, требуется долгая работа напильником. Вроде бы даже работает.
 
+Для запуска воспользуйся готовым колабом. В меню выбора репозитория выбери **Clover-Russian-edition**. https://colab.research.google.com/drive/1rMu62jSd82dbjEn1av_pYErvrehi4y6s
+
+Так же отдельно доступны две модели обученые на ai dungeon
+
+1) https://drive.google.com/uc?id=1KEAcnsyPYsfEei7T4loV-D8rYJeLq3_T Обучена на книгах, переведнном наборе из ориганльной модели
+
+2) https://drive.google.com/uc?id=1Fpl19rD0mNAvL_onZNfpg9FRAbChryZY Обучена на книгах, переведнном наборе плюс диалоги из игр
+
 ## Clover Edition
 ### Pytorch Edition
 
