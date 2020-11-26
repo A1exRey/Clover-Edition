@@ -8,10 +8,11 @@ def boolValue(bool):
 
 def instructions():
     print('\n' +
-          'AID2: Clover Edition Instructions: \n' +
-          '  Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."\n' +
-          '  To speak enter say "(thing you want to say)" or just "(thing you want to say)"\n' +
-		  '  To insert your own text into the story, enter !(thing you want to insert)')
+          'AID2: Инструкции \n' +
+          '  Описывай действия с глагола т.е. "идешь в таверну", "взмахнул мечом""\n' +
+          '  Для описания диалога используй конструкцию ">ты говоришь что-то" или "" для прямой речи"\n' +
+		  '  Чтобы вставить свою историю в текст введи !(сюжетный_текст)\n'+
+          '  Если кажется, что модель не договорила и оборвалась на полуслове то отправь пустой текст (просто enter нажми) и модель допишет текст')
     print('The following commands can be entered for any action:')
     print('  "/revert"                Reverts the last action allowing you to pick a different action.')
     print('  "/quit"                  Quits the game and saves')
