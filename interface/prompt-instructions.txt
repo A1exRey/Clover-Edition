@@ -1,3 +1,3 @@
-Write a context and prompt that describes your character and starting situation in as little space as possible.
-The first line (context) will be permanently added to the AI's memory for this session.
-The second line (prompt) will eventually be forgotten and so can be longer and include temporary information.
+Задай контекст и подсказку для описания своего персонажа, стартовой локации и ситуации.
+Первая строка контекст(context) будет пермаменто находится в памяти, так что описывай его кратко и по существу
+Вторая строка подсказака(prompt) является просто вводной для начала игры и содержит временную информацию. Можешь написать тут куда больше слов. Но модель в конечном итоге может забыть и эту информацию
