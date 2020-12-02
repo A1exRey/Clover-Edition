@@ -3,7 +3,7 @@
 Теперь на русском! Модель крайне сырая, требуется долгая работа напильником. Вроде бы даже работает. Баги, ошибки и советы можно отправить на alex010rey@gmail.com.
 
 
-Для запуска воспользуйся готовым колабом. В меню выбора репозитория выбери **Clover-Russian-edition**. https://colab.research.google.com/drive/1rMu62jSd82dbjEn1av_pYErvrehi4y6s
+Для запуска воспользуйся готовым колабом. В меню выбора репозитория выбери **Clover-Russian-edition**. https://colab.research.google.com/github/A1exRey/Clover-Edition-ru/blob/master/Open_CYOAI_rus.ipynb
 
 Так же отдельно доступны две модели обученые на ai dungeon
 
