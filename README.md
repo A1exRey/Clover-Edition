@@ -7,9 +7,9 @@
 
 Так же отдельно доступны две модели обученые на ai dungeon
 
-1) https://drive.google.com/uc?id=1KEAcnsyPYsfEei7T4loV-D8rYJeLq3_T Обучена на книгах, переведнном наборе из ориганльной модели
+1) https://drive.google.com/uc?id=1KEAcnsyPYsfEei7T4loV-D8rYJeLq3_T модель обучена на книгах и переведнном наборе из оригинальной модели
 
-2) https://drive.google.com/uc?id=1Fpl19rD0mNAvL_onZNfpg9FRAbChryZY Обучена на книгах, переведнном наборе плюс диалоги из игр
+2) https://drive.google.com/uc?id=1Fpl19rD0mNAvL_onZNfpg9FRAbChryZY модель обучена на книгах и переведнном наборе плюс диалоги из игр
 
 ## Clover Edition
 ### Pytorch Edition
