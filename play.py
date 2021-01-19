@@ -617,7 +617,7 @@ class GameManager:
         """
         action = format_input(action)
 
-        story_insert_regex = re.search("^(?: *ты +)?! *(.*)$", action, flags=re.I)
+        story_insert_regex = re.search("^(?: *вы +)?! *(.*)$", action, flags=re.I)
 
         # If the player enters a story insert.
         if story_insert_regex:
@@ -635,23 +635,23 @@ class GameManager:
 
             # Add the "you" if it's not prompt-toolkit
             if not use_ptoolkit():
-                action = re.sub("^(?: *ты +)*(.+)$", "Ты \\1", action, flags=re.I)
+                action = re.sub("^(?: *вы +)*(.+)$", "Вы \\1", action, flags=re.I)
 
-            sugg_action_regex = re.search(r"^(?: *ты +)?([0-9]+)$", action, flags=re.I)
-            user_speech_regex = re.search(r"^(?: *ты +сказал +)?([\"'].*[\"'])$", action, flags=re.I)
-            user_action_regex = re.search(r"^(?: *ты +)(.+)$", action, flags=re.I)
+            sugg_action_regex = re.search(r"^(?: *вы +)?([0-9]+)$", action, flags=re.I)
+            user_speech_regex = re.search(r"^(?: *вы +сказали +)?([\"'].*[\"'])$", action, flags=re.I)
+            user_action_regex = re.search(r"^(?: *вы +)(.+)$", action, flags=re.I)
 
             if sugg_action_regex:
                 action = sugg_action_regex.group(1)
                 if action in [str(i) for i in range(len(suggested_actions))]:
-                    action = "Ты " + suggested_actions[int(action)].strip()
+                    action = "Вы " + suggested_actions[int(action)].strip()
 
             if user_speech_regex:
                 action = user_speech_regex.group(1)
                 if settings.getboolean("action-d20"):
                     action = d20ify_speech(action, d)
                 else:
-                    action = "Ты сказал " + action
+                    action = "Вы сказали " + action
                 action = end_sentence(action)
 
             elif user_action_regex:
@@ -659,11 +659,11 @@ class GameManager:
                 if settings.getboolean("action-d20"):
                     action = d20ify_action(action, d)
                 else:
-                    action = "Ты " + action
+                    action = "Вы " + action
                 action = end_sentence(action)
 
             # If the user enters nothing but leaves "you", treat it like an empty action (continue)
-            if re.match(r"^(?: *ты *)*[.?!]? *$", action, flags=re.I):
+            if re.match(r"^(?: *вы *)*[.?!]? *$", action, flags=re.I):
                 action = ""
             else:
                 # Prompt the user with the formatted action
@@ -725,16 +725,16 @@ class GameManager:
             print()
 
             if use_ptoolkit():
-                action = input_line("> ", "main-prompt", default="%s" % "Ты ")
+                action = input_line("> ", "main-prompt", default="%s" % "Вы ")
             else:
-                action = input_line("> Ты ", "main-prompt")
+                action = input_line("> Вы ", "main-prompt")
 
             # Clear suggestions and user input
             if act_alts and not in_colab():
                 clear_lines(action_suggestion_lines + 2)
 
             # Users can type in "/command", or "You /command" if prompt_toolkit is on and they left the "You" in
-            cmd_regex = re.search(r"^(?: *ты *)?/([^ ]+) *(.*)$", action, flags=re.I)
+            cmd_regex = re.search(r"^(?: *вы *)?/([^ ]+) *(.*)$", action, flags=re.I)
 
             # If this is a command
             if cmd_regex:

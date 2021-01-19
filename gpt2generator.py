@@ -131,25 +131,30 @@ def sample_sequence(
             logits, pasts = model(input_ids=input_ids_next, past=pasts)
             logits = logits[-1, :].float()
 
-            # Originally the order was Temperature, Repetition Penalty, then top-k/p
-            if settings.getboolean('top-p-first'):
-                logits = top_k_top_p_filtering(logits, top_k=top_k, top_p=top_p)
-
-            logits = logits / (temperature if temperature > 0 else 1.0)
-
-            # repetition penalty from CTRL (https://arxiv.org/abs/1909.05858)
-            for k in set(generated.tolist()):
-                logits[k] /= repetition_penalty
-
-            if not settings.getboolean('top-p-first'):
-                logits = top_k_top_p_filtering(logits, top_k=top_k, top_p=top_p)
-
-            if temperature == 0:  # greedy sampling:
-                next_token = torch.argmax(logits, dim=-1).unsqueeze(-1)
+            # переписать  логику TODO
+            if settings.getboolean('sparse-gen'): 
+                probs = entmax_bisect(logits, dim=-1, alpha=settings.sparse-level)
+                next_token = torch.multinomial(probs, num_samples=1)
             else:
-                next_token = torch.multinomial(
-                    F.softmax(logits, dim=-1), num_samples=1
-                )
+                # Originally the order was Temperature, Repetition Penalty, then top-k/p
+                if settings.getboolean('top-p-first'):
+                    logits = top_k_top_p_filtering(logits, top_k=top_k, top_p=top_p)
+
+                logits = logits / (temperature if temperature > 0 else 1.0)
+
+                # repetition penalty from CTRL (https://arxiv.org/abs/1909.05858)
+                for k in set(generated.tolist()):
+                    logits[k] /= repetition_penalty
+
+                if not settings.getboolean('top-p-first'):
+                    logits = top_k_top_p_filtering(logits, top_k=top_k, top_p=top_p)
+
+                if temperature == 0:  # greedy sampling:
+                    next_token = torch.argmax(logits, dim=-1).unsqueeze(-1)
+                else:
+                    next_token = torch.multinomial(
+                        F.softmax(logits, dim=-1), num_samples=1
+                    )
             generated = torch.cat((generated, next_token), dim=-1)
             # Decode into plain text
             o = generated[len(context_tokens):].tolist()
