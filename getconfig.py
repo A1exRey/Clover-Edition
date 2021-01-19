@@ -50,6 +50,8 @@ setting_info = {
     "generate-num":     ["Approximate number of words to generate.", 60],
     "top-p":            ["Changes number of words nucleus sampled by the AI.", 0.9],
     "log-level":        ["Development log level. <30 is for developers.", 30],
+    "sparse-gen":       ["Эксперементальная генерация", "off"],
+    "sparse-level":     ["Уровень разреженности", 1.2],
 }
 
 

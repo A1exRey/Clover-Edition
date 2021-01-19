@@ -339,7 +339,7 @@ class GPT2Generator:
 
         text = self.generate_raw(
             context, prompt, temperature=temperature, top_k=top_k, top_p=top_p, repetition_penalty=repetition_penalty,
-            stop_tokens=self.tokenizer.encode(["<|endoftext|>", ">"])
+            stop_tokens=self.tokenizer.encode([">"])
         )
 
         logger.debug("Generated result is: `%r`", repr(text))
