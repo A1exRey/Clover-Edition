@@ -2,7 +2,7 @@ import configparser
 import logging
 
 config = configparser.ConfigParser()
-config.read("config.ini")
+config.read("config.ini", encoding='utf-8')
 settings = config["Settings"]
 
 colorschemefile = settings["color-scheme"]
