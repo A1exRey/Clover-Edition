@@ -39,7 +39,7 @@ def hackyWhiteSpaceCutter(prompt):
     return re.search(r'\s*$', prompt).group(0)
 
 
-def memory_merge(prompt, context, tokenizer, maxHistory=2048):
+def memory_merge(prompt, context, tokenizer):
     assert (prompt + context)
     # print(prompt+context)
     # logger.debug('RAW TEXT INPUT IS:`%r`', context)
@@ -47,15 +47,15 @@ def memory_merge(prompt, context, tokenizer, maxHistory=2048):
     # I'm going with the add prefix option but I'm not sure it's quite right
     prompt_tokens = tokenizer.encode(prompt, add_special_tokens=False, add_prefix_space=True)
     context_tokens = hackyEncode(tokenizer, hackyWhiteSpaceCutter(prompt) + context)
-    context_tokens = context_tokens[-(maxHistory - len(prompt_tokens)):]
+    # context_tokens = context_tokens[-(maxHistory - len(prompt_tokens)):]
     # logger.debug('DECODED CONTEXT TOKENS: `%r`', tokenizer.convert_ids_to_tokens(context_tokens))
     prompt_tokens.extend(context_tokens)
     context_tokens = prompt_tokens
     # logger.debug('DECODED OUTPUT IS: `%r`', tokenizer.decode(context_tokens, clean_up_tokenization_spaces=False))
     # this is a hack and it should be up to the sampler to deal with max size
-    if len(context_tokens) > maxHistory:
-        logger.error("CONTEXT IS TOO LONG ERROR")
-        context_tokens = context_tokens[-maxHistory:]
+    # if len(context_tokens) > maxHistory:
+        # logger.error("CONTEXT IS TOO LONG ERROR")
+        # context_tokens = context_tokens[-maxHistory:]
     return context_tokens
 
 
